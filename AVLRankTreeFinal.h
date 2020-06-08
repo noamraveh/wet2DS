@@ -435,6 +435,9 @@ public:
     TreeNode<T>* getRoot(){
         return root;
     }
+    T* getMin(){
+        return min->getData();
+    }
 
     TreeNode<T>* getCurrent(){
         return current;

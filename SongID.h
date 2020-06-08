@@ -28,5 +28,13 @@ public:
     void linkRankTree(SongRank *new_song_rank) {
         song_rank_tree_ptr = new_song_rank;
     }
+
+    SongRank *getRankTreePtr() {
+        return song_rank_tree_ptr;
+    }
+
+    SongAll *getMainTreePtr() {
+        return all_songs_tree_ptr;
+    }
 };
 #endif //WET2DS_SONGID_H

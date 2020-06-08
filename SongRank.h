@@ -13,5 +13,8 @@ public:
     //dtor
     //operator <
     //operator ==
+    int getID() {
+        return song_id;
+    }
 };
 #endif //WET2DS_SONGRANK_H

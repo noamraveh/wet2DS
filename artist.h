@@ -29,14 +29,24 @@ public:
     }
 
     void addSong(int song_id){
-
+        //create data and add to rank tree
         SongRank* new_song_rank = new SongRank(song_id);
         songs_tree_rank->insert(new_song_rank);
-
+        //create data and add to id tree
         SongID* new_song_id = new SongID(song_id);
         songs_tree_index->insert(new_song_id);
-
+        //add ptr to rank tree in id tree
         new_song_id->linkRankTree(new_song_rank);
+        num_songs++;
+    }
+
+    void removeSong(int song_id) {
+        SongID search_song(song_id);
+        SongID* found_song = songs_tree_index->findData(&search_song);
+        songs_tree_rank->remove(found_song->getRankTreePtr());
+        songs_tree_index->remove(found_song);
+        best_song = songs_tree_rank->getMin()->getID();
+        num_songs--;
     }
 
     //add song to 3 trees
@@ -48,6 +58,8 @@ public:
     void linkMainTree(SongAll *new_song,int song_id) {
         searchSong(song_id)->linkMainTree(new_song);
     }
+
+
 };
 
 #endif //WET2DS_ARTIST_H

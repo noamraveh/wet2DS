@@ -78,8 +78,8 @@ public:
         if(found_artist->searchSong(songID) == nullptr){
             return FAILURE;
         }
-        //removes from main tree as well in artist.h
         found_artist->removeSong(songID);
+        all_songs_tree.remove(found_artist->searchSong(songID)->getMainTreePtr());
         return SUCCESS;
     }
 
