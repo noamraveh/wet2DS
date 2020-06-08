@@ -6,13 +6,20 @@
 template <class T>
 class ListNode{
 public:
+    int key;
     T* data;
     ListNode* next;
     ListNode* prev;
-    explicit ListNode(T* data):data(data),next(nullptr),prev(nullptr){}
+    ListNode(int key,T* data): key(key),data(data),next(nullptr),prev(nullptr){}
     ListNode() = default;
     ~ListNode(){
         delete data;
+    }
+    int getKey(){
+        return key;
+    }
+    T* getData(){
+        return data;
     }
 };
 
@@ -47,8 +54,8 @@ public:
     }
 
     //insert first
-    ListNode<T>* InsertFirst(T* data){
-        auto node = new ListNode<T>(data);
+    ListNode<T>* InsertFirst(int key, T* data){
+        auto node = new ListNode<T>(key,data);
         if (isEmpty()){
             first = node;
             node->prev = nullptr;
@@ -65,7 +72,11 @@ public:
     }
 
     //removeNode
-    void removeNode (ListNode<T>* node){
+    void removeNode (int key){
+        ListNode<T>* node = FindNode(key);
+        if (!node){
+            return;
+        }
         if (node == first){ //delete first node
             if (!node->next){ //if it is the only node in the list
                 delete node;
@@ -97,10 +108,10 @@ public:
         return (!first);
     }
 
-    ListNode<T>* FindNode (T* data){
+    ListNode<T>* FindNode (int key){
         ListNode<T>* search_node = getFirstNode();
         while (search_node->next != nullptr){
-            if (search_node->data == data){
+            if (search_node->key == key){
                 return search_node;
             }
             else{
