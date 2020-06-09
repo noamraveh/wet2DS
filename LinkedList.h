@@ -110,6 +110,12 @@ public:
 
     ListNode<T>* FindNode (int key){
         ListNode<T>* search_node = getFirstNode();
+        if (!search_node){
+            return nullptr;
+        }
+        if (search_node->key == key){
+            return search_node;
+        }
         while (search_node->next != nullptr){
             if (search_node->key == key){
                 return search_node;

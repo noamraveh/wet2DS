@@ -35,7 +35,7 @@ public:
     }
     //operator ==
     bool operator==(const SongAll& song){
-        return num_streams==song.num_streams && artist_id==song.song_id && song_id == song.song_id;
+        return num_streams==song.num_streams && artist_id==song.artist_id && song_id == song.song_id;
     }
     int getArtistID(){
         return artist_id;

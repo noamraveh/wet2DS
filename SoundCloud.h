@@ -64,7 +64,7 @@ public:
 
         //add pointer to main tree from artist data
         found_artist->linkMainTree(new_song,songID);
-        return SUCCESS;
+         return SUCCESS;
     }
     StatusType RemoveSong(int artistID,int songID){
         if (artistID <=0 || songID <=0){

@@ -17,9 +17,15 @@ class Artist{
     AVLTree<SongRank>* songs_tree_rank;
 public:
     //ctor
-    Artist(int artistID):id(artistID), num_songs(0),best_song(0){}
+    Artist(int artistID):id(artistID), num_songs(0),best_song(0){
+        songs_tree_rank = new AVLTree<SongRank>();
+        songs_tree_index = new AVLTree<SongID>();
+    }
     //dtor
-    ~Artist()= default;
+    ~Artist(){
+        delete songs_tree_index;
+        delete songs_tree_rank;
+    }
     //get best songs
     int getBestSong(){
         return best_song;

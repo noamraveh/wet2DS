@@ -76,6 +76,10 @@ public:
         int index = hashFunc(key);
         table[index]->removeNode(table[index]->FindNode(key)->getKey());
         num_occupied--;
+        if (table[index]->isEmpty()){
+            delete table[index];
+            table[index] = nullptr;
+        }
         if(num_occupied == size/4 && size > 2*init_size){
             resize(size/2);
         }
