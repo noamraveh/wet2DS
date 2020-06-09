@@ -1,6 +1,6 @@
 //todo change ifndefs
-#ifndef SOUNDCLOUD_HASHTABLE_H
-#define SOUNDCLOUD_HASHTABLE_H
+#ifndef WET2DS_HASHTABLE_H
+#define WET2DS_HASHTABLE_H
 #include "LinkedList.h"
 #include <algorithm>
 #include <cstdbool>
@@ -93,4 +93,4 @@ public:
     }
 
 };
-#endif //SOUNDCLOUD_HASHTABLE_H
+#endif //WET2DS_HASHTABLE_H

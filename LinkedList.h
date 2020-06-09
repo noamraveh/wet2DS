@@ -1,5 +1,5 @@
-#ifndef DIESEL_LINKEDLIST_H
-#define DIESEL_LINKEDLIST_H
+#ifndef WET2DS_LINKEDLIST_H
+#define WET2DS_LINKEDLIST_H
 #include <algorithm>
 #include <cstdbool>
 
@@ -127,4 +127,4 @@ public:
         return nullptr;
     }
 };
-#endif //DIESEL_LINKEDLIST_H
+#endif //WET2DS_LINKEDLIST_H

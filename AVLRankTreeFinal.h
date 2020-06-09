@@ -2,8 +2,8 @@
 //final
 //
 
-#ifndef WET1DS_FINALAVLTREE_H
-#define WET1DS_FINALAVLTREE_H
+#ifndef WET2DS_FINALAVLTREE_H
+#define WET2DS_FINALAVLTREE_H
 
 #include <algorithm>
 #include <cstdbool>
@@ -472,4 +472,4 @@ public:
     }
 };
 
-#endif //WET1DS_FINALAVLTREE_H
+#endif //WET2DS_FINALAVLTREE_H
