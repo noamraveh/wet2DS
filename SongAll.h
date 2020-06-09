@@ -11,10 +11,8 @@ class SongAll{
 public:
 
     //ctor
-    SongAll(int artist_id,int song_id,int num_streams = 0): artist_id(artist_id),song_id(song_id),num_streams(num_streams){}
+    SongAll(int artist_id,int song_id,int num_streams = 0): artist_id(artist_id),song_id(song_id),num_streams(num_streams){};
     //dtor
-    ~SongAll() = default;
-
     //operator <
     bool operator<(const SongAll& song){
         if (num_streams>song.num_streams){
@@ -39,6 +37,5 @@ public:
     bool operator==(const SongAll& song){
         return num_streams==song.num_streams && artist_id==song.song_id && song_id == song.song_id;
     }
-
 };
 #endif //WET2DS_SONGALL_H

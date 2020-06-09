@@ -15,7 +15,7 @@ class SongID{
     SongAll* all_songs_tree_ptr;
 public:
     //ctor
-    SongID(int song_id,int num_streams=0):song_id(song_id),num_streams(0){};
+    explicit SongID(int song_id,int num_streams=0):song_id(song_id),num_streams(0),song_rank_tree_ptr(nullptr),all_songs_tree_ptr(nullptr){};
     //dtor
     //operator <
     //opertator ==
@@ -41,8 +41,15 @@ public:
         return num_streams;
     }
 
-    void updateCount(int count) {
-
+    //operator <
+    bool operator<(const SongID &song){
+        return song_id < song.song_id;
     }
+
+    //operator ==
+    bool operator==(const SongID &song){
+        return song_id == song.song_id;
+    }
+
 };
 #endif //WET2DS_SONGID_H

@@ -9,11 +9,8 @@ class SongRank{
     int num_streams;
 public:
     //ctor
-    explicit SongRank(int song_id,int num_streams=0):song_id(song_id),num_streams(num_streams){}
+    SongRank(int song_id,int num_streams=0):song_id(song_id),num_streams(num_streams){};
     //dtor
-    ~SongRank() = default;
-
-    //operator <
     bool operator<(const SongRank &song){
         if (num_streams>song.num_streams){
             return true;
@@ -30,7 +27,6 @@ public:
         return num_streams==song.num_streams && song_id==song.song_id;
     }
 
-    //get songID
     int getID() {
         return song_id;
     }
