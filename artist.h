@@ -21,6 +21,9 @@ public:
     //dtor
     ~Artist()= default;
     //get best songs
+    int getBestSong(){
+        return best_song;
+    }
     //get num songs
     //find song
     SongID* searchSong(int songID){
@@ -37,6 +40,7 @@ public:
         songs_tree_index->insert(new_song_id);
         //add ptr to rank tree in id tree
         new_song_id->linkRankTree(new_song_rank);
+        best_song = songs_tree_rank->getMin()->getID();
         num_songs++;
     }
 

@@ -28,9 +28,7 @@ typedef enum {
 } StatusType;
 
 
-void *Init(){
-
-}
+void *Init();
 
 StatusType AddArtist(void *DS, int artistID);
 

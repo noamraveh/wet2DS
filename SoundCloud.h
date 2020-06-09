@@ -17,8 +17,7 @@ class SoundCloud{
 
 public:
     //ctor
-    SoundCloud()= default;
-
+    explicit SoundCloud():artists_table(HashTable<Artist>(7)){}
     //dtor
     ~SoundCloud() = default;
 
@@ -95,8 +94,10 @@ public:
         if (!found_artist){
             return FAILURE;
         }
-        //todo search song
         SongID* current_song = found_artist->searchSong(songID);
+        if (!current_song){
+            return FAILURE;
+        }
         int current_count = current_song->getNumStreams();
         current_count += count;
         SongAll* updated_song = new SongAll(artistID,songID,current_count);
@@ -107,6 +108,33 @@ public:
         found_artist->linkMainTree(updated_song,songID);
         return SUCCESS;
     }
+
+    StatusType GetArtistBestSong(int artistID, int *songID){
+        if (artistID <= 0 || songID == nullptr){
+            return INVALID_INPUT;
+        }
+        Artist* found_artist = artists_table.find(artistID);
+        if (!found_artist || found_artist->getNumSongs() == 0) {
+            return FAILURE;
+        }
+        *songID = found_artist->getBestSong();
+        return SUCCESS;
+    }
+    StatusType GetRecommendedSongInPlace(int rank, int *artistID, int *songID){
+        if (artistID == nullptr || songID == nullptr || rank <= 0 ){
+            return INVALID_INPUT;
+        }
+        if (all_songs_tree.getNumNodes()<rank){
+            return FAILURE;
+        }
+        SongAll* wanted_song = all_songs_tree.select(rank);
+        *artistID = wanted_song->getArtistID();
+        *songID = wanted_song->getSongID();
+        return SUCCESS;
+    }
+
+
+
 
 };
 #endif //WET2DS_SOUNDCLOUD_H

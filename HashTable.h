@@ -8,13 +8,13 @@
 template <class T>
 class HashTable{
 private:
-    unsigned int num_occupied;
-    unsigned int size;
-    unsigned int init_size;
+    int num_occupied;
+    int size;
+    int init_size;
     LinkedList<T>** table;
     void resize(int updated_size){
         LinkedList<T>** old_table = table;
-        table = new ListNode<T>* [updated_size];
+        table = new LinkedList<T>* [updated_size];
         for (int i=0; i<updated_size;i++){
             table[i] = nullptr;
         }
@@ -35,13 +35,13 @@ private:
         delete []old_table;
     }
 
-    unsigned int hashFunc(int value){
+    int hashFunc(int value){
         return value% this->size;
     }
 
 public:
     //ctor
-    HashTable(unsigned int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
+    HashTable(int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
         table = new LinkedList<T>*[size];
         for (int i=0; i<size;i++){
             table[i] = nullptr;
@@ -61,7 +61,7 @@ public:
     void insert(int key, T* data) {
         int index = hashFunc(key);
         if (table[index] == nullptr) {
-            table[index] = new LinkedList<T> *;
+            table[index] = new LinkedList<T>;
         }
         table[index]->InsertFirst(key,data);
         num_occupied++;
@@ -74,7 +74,7 @@ public:
     //will be called only after element was found
     void remove (int key){
         int index = hashFunc(key);
-        table[index]->removeNode(table[index]->FindNode(key));
+        table[index]->removeNode(table[index]->FindNode(key)->getKey());
         num_occupied--;
         if(num_occupied == size/4 && size > 2*init_size){
             resize(size/2);
@@ -83,7 +83,7 @@ public:
     T* find(int key){
         int index = hashFunc(key);
         if (table[index]){
-            return table[index]->FindNode(key);
+            return table[index]->FindNode(key)->getData();
         }
         return nullptr;
     }

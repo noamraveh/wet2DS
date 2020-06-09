@@ -340,7 +340,7 @@ public:
 
     T* select(int k){
         if (l_son->sub_tree_nodes == k-1)
-            return this;
+            return this->getData();
         else if (l_son->sub_tree_nodes > k-1)
             return l_son->select(k);
         else if (l_son->sub_tree_nodes < k-1)
@@ -442,10 +442,10 @@ public:
     TreeNode<T>* getCurrent(){
         return current;
     }
-    TreeNode<T>* select(int k){
+    T* select(int k){
         if (root == nullptr || num_of_nodes<k)
             return nullptr;
-        return root->selectNode(k);
+        return root->select(k);
     }
     void updateCurrent(){
         if (current->getRight() != nullptr){ // traveling right after root
@@ -458,6 +458,9 @@ public:
         current = current->getParent();
     }
 
+    int getNumNodes(){
+        return  num_of_nodes;
+    }
     void resetCurrent(){
         current = min;
     }

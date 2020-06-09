@@ -87,7 +87,7 @@ public:
                 first = node->next;
                 delete node;
             }
-            num_of_nodes--
+            num_of_nodes--;
             return;
         }
         else if (node->next == nullptr){ //delete last node
