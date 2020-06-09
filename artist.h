@@ -60,6 +60,19 @@ public:
     }
 
 
+    void updateCount(int songID, int count) {
+        //create data and add to rank tree
+        SongID search_song(songID);
+        SongID* found_song = songs_tree_index->findData(&search_song);
+
+        SongRank* new_song_rank = new SongRank(songID,count);
+        songs_tree_rank->remove(found_song->getRankTreePtr());
+        songs_tree_rank->insert(new_song_rank);
+
+        //add ptr to rank tree in id tree
+        found_song->linkRankTree(new_song_rank);
+        best_song = songs_tree_rank->getMin()->getID();
+    }
 };
 
 #endif //WET2DS_ARTIST_H

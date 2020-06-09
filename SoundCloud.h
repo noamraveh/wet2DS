@@ -78,8 +78,12 @@ public:
         if(found_artist->searchSong(songID) == nullptr){
             return FAILURE;
         }
-        found_artist->removeSong(songID);
+        //remove from main tree
         all_songs_tree.remove(found_artist->searchSong(songID)->getMainTreePtr());
+
+        //remove from trees under artist
+        found_artist->removeSong(songID);
+
         return SUCCESS;
     }
 
@@ -91,7 +95,16 @@ public:
         if (!found_artist){
             return FAILURE;
         }
-        found_artist.addToSongCount();
+        //todo search song
+        SongID* current_song = found_artist->searchSong(songID);
+        int current_count = current_song->getNumStreams();
+        current_count += count;
+        SongAll* updated_song = new SongAll(artistID,songID,current_count);
+        all_songs_tree.remove(current_song->getMainTreePtr());
+        all_songs_tree.insert(updated_song);
+
+        found_artist->updateCount(songID,current_count);
+        found_artist->linkMainTree(updated_song,songID);
         return SUCCESS;
     }
 
