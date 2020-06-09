@@ -15,11 +15,25 @@ class SongID{
     SongAll* all_songs_tree_ptr;
 public:
     //ctor
-    SongID(int song_id,int num_streams=0):song_id(song_id),num_streams(0){};
+    explicit SongID(int song_id,int num_streams=0):song_id(song_id),num_streams(0),song_rank_tree_ptr(
+            nullptr),all_songs_tree_ptr(nullptr){}
     //dtor
-    //operator <
-    //opertator ==
+    ~SongID() = default;
+
     //get num streams
+    int numStreams(){
+        return num_streams;
+    }
+
+    //operator <
+    bool operator<(const SongID &song){
+        return song_id < song.song_id;
+    }
+
+    //operator ==
+    bool operator==(const SongID &song){
+        return song_id == song.song_id;
+    }
 
     void linkMainTree(SongAll* all_songs_data){
         all_songs_tree_ptr = all_songs_data;
