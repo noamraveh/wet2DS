@@ -121,6 +121,16 @@ public:
         return SUCCESS;
     }
     StatusType GetRecommendedSongInPlace(int rank, int *artistID, int *songID){
+       /* all_songs_tree.resetCurrent();
+        SongAll* current = all_songs_tree.getCurrent()->getData();
+        for (int i=0;i<all_songs_tree.getNumNodes();i++){
+            cout<< current->getNumStreams()<<endl;
+            cout<< current->getArtistID()<<endl;
+            cout << current->getSongID() << endl;
+            cout << endl;
+            all_songs_tree.updateCurrent();
+            current = all_songs_tree.getCurrent()->getData();
+        }*/
         if (artistID == nullptr || songID == nullptr || rank <= 0 ){
             return INVALID_INPUT;
         }

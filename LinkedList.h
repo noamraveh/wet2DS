@@ -21,6 +21,9 @@ public:
     T* getData(){
         return data;
     }
+    void clearData(){
+        data = nullptr;
+    }
 };
 
 template <class T>
@@ -116,7 +119,7 @@ public:
         if (search_node->key == key){
             return search_node;
         }
-        while (search_node->next != nullptr){
+        while (search_node != nullptr){
             if (search_node->key == key){
                 return search_node;
             }

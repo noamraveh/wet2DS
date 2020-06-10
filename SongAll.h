@@ -43,5 +43,8 @@ public:
     int getSongID(){
         return song_id;
     }
+    int getNumStreams(){
+        return num_streams;
+    }
 };
 #endif //WET2DS_SONGALL_H

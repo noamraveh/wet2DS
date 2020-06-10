@@ -51,5 +51,8 @@ public:
         return song_id == song.song_id;
     }
 
+    void updateStreams(int new_count) {
+        num_streams = new_count;
+    }
 };
 #endif //WET2DS_SONGID_H

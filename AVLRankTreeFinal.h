@@ -339,18 +339,20 @@ public:
     }
 
     T* select(int k) {
-        if (!l_son && !r_son) { //reached leaf
-            return this->getData();
-        }
-        if (l_son) {
+            if (!l_son) {
+                if (0 == k - 1)
+                    return this->getData();
+                else
+                    return r_son->select(k-1);
+            }
             if (l_son->sub_tree_nodes == k - 1)
                 return this->getData();
             else if (l_son->sub_tree_nodes > k - 1)
                 return l_son->select(k);
             else if (l_son->sub_tree_nodes < k - 1)
                 return r_son->select(k - l_son->sub_tree_nodes - 1);
-        } else
-            return r_son->select(k - 1);
+        return nullptr; //shouldn't reach here
+
     }
 };
 

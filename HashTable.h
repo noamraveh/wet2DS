@@ -20,11 +20,13 @@ private:
         }
         int old_size = size;
         size =updated_size;
+        num_occupied = 0;
         for (int i=0; i<old_size; i++){
             if (old_table[i] != nullptr){
                 ListNode<T>* node = old_table[i]->getFirstNode();
                 while(node != nullptr){
                     insert(node->getKey(),node->getData());
+                    node->clearData();
                     int to_delete = node->getKey();
                     node = old_table[i]->getNextNode(node);
                     old_table[i]->removeNode(to_delete);
@@ -87,7 +89,10 @@ public:
     T* find(int key){
         int index = hashFunc(key);
         if (table[index]){
-            return table[index]->FindNode(key)->getData();
+            ListNode<T>* temp = table[index]->FindNode(key);
+            if (!temp)
+                return nullptr;
+            return temp->getData();
         }
         return nullptr;
     }

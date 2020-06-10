@@ -55,7 +55,10 @@ public:
         SongID* found_song = songs_tree_index->findData(&search_song);
         songs_tree_rank->remove(found_song->getRankTreePtr());
         songs_tree_index->remove(found_song);
-        best_song = songs_tree_rank->getMin()->getID();
+        if (songs_tree_rank->getNumNodes() == 0)
+            best_song =0;
+        else
+            best_song = songs_tree_rank->getMin()->getID();
         num_songs--;
     }
 
@@ -74,7 +77,7 @@ public:
         //create data and add to rank tree
         SongID search_song(songID);
         SongID* found_song = songs_tree_index->findData(&search_song);
-
+        found_song->updateStreams(count);
         SongRank* new_song_rank = new SongRank(songID,count);
         songs_tree_rank->remove(found_song->getRankTreePtr());
         songs_tree_rank->insert(new_song_rank);
