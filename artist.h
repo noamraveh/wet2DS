@@ -17,7 +17,7 @@ class Artist{
     AVLTree<SongRank>* songs_tree_rank;
 public:
     //ctor
-    Artist(int artistID):id(artistID), num_songs(0),best_song(0){
+    explicit Artist(int artistID):id(artistID), num_songs(0),best_song(0){
         songs_tree_rank = new AVLTree<SongRank>();
         songs_tree_index = new AVLTree<SongID>();
     }
@@ -37,17 +37,32 @@ public:
         return songs_tree_index->findData(&search_data);
     }
 
-    void addSong(int song_id){
+    bool addSong(int song_id){
+        SongRank* new_song_rank;
+        SongID* new_song_id;
         //create data and add to rank tree
-        SongRank* new_song_rank = new SongRank(song_id);
+        try{
+            new_song_rank = new SongRank(song_id);
+        }
+        catch(std::bad_alloc&){
+            return false;
+        }
         songs_tree_rank->insert(new_song_rank);
         //create data and add to id tree
-        SongID* new_song_id = new SongID(song_id);
+        try{
+            new_song_id = new SongID(song_id);
+        }
+        catch(std::bad_alloc&){
+            delete new_song_rank;
+            return false;
+        }
         songs_tree_index->insert(new_song_id);
+
         //add ptr to rank tree in id tree
         new_song_id->linkRankTree(new_song_rank);
         best_song = songs_tree_rank->getMin()->getID();
         num_songs++;
+        return true;
     }
 
     void removeSong(int song_id) {
@@ -73,18 +88,25 @@ public:
     }
 
 
-    void updateCount(int songID, int count) {
+    bool updateCount(int songID, int count) {
         //create data and add to rank tree
         SongID search_song(songID);
         SongID* found_song = songs_tree_index->findData(&search_song);
         found_song->updateStreams(count);
-        SongRank* new_song_rank = new SongRank(songID,count);
+        SongRank* new_song_rank;
+        try{
+            new_song_rank = new SongRank(songID,count);
+        }
+        catch(std::bad_alloc&){
+            return false;
+        }
         songs_tree_rank->remove(found_song->getRankTreePtr());
         songs_tree_rank->insert(new_song_rank);
 
         //add ptr to rank tree in id tree
         found_song->linkRankTree(new_song_rank);
         best_song = songs_tree_rank->getMin()->getID();
+        return true;
     }
 };
 

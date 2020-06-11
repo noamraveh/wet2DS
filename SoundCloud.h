@@ -29,8 +29,16 @@ public:
         if(artists_table.find(artistID)){
             return FAILURE;
         }
-        auto new_artist = new Artist(artistID);
-        artists_table.insert(artistID,new_artist);
+        Artist* new_artist;
+        try{
+            new_artist = new Artist(artistID);
+        }
+        catch (std::bad_alloc &){
+            return ALLOCATION_ERROR;
+        }
+        if (!artists_table.insert(artistID,new_artist)){
+            return ALLOCATION_ERROR;
+        }
         return SUCCESS;
     }
 
@@ -56,16 +64,25 @@ public:
             return FAILURE;
         }
         //add to two artist trees
-        found_artist->addSong(songID);
 
+        if(!found_artist->addSong(songID)){
+            return ALLOCATION_ERROR;
+        }
         //add to all songs tree
-        SongAll* new_song = new SongAll(artistID,songID);
+        SongAll* new_song;
+        try{
+            new_song = new SongAll(artistID,songID);
+        }
+        catch (std::bad_alloc &) {
+            return ALLOCATION_ERROR;
+        }
         all_songs_tree.insert(new_song);
 
         //add pointer to main tree from artist data
         found_artist->linkMainTree(new_song,songID);
-         return SUCCESS;
+        return SUCCESS;
     }
+
     StatusType RemoveSong(int artistID,int songID){
         if (artistID <=0 || songID <=0){
             return INVALID_INPUT;
@@ -100,11 +117,19 @@ public:
         }
         int current_count = current_song->getNumStreams();
         current_count += count;
-        SongAll* updated_song = new SongAll(artistID,songID,current_count);
+        SongAll* updated_song;
+        try {
+            updated_song = new SongAll(artistID,songID,current_count);
+        }
+        catch (std::bad_alloc &) {
+            return ALLOCATION_ERROR;
+        }
         all_songs_tree.remove(current_song->getMainTreePtr());
         all_songs_tree.insert(updated_song);
 
-        found_artist->updateCount(songID,current_count);
+        if(!found_artist->updateCount(songID,current_count)){
+            return ALLOCATION_ERROR;
+}
         found_artist->linkMainTree(updated_song,songID);
         return SUCCESS;
     }
@@ -121,16 +146,7 @@ public:
         return SUCCESS;
     }
     StatusType GetRecommendedSongInPlace(int rank, int *artistID, int *songID){
-       /* all_songs_tree.resetCurrent();
-        SongAll* current = all_songs_tree.getCurrent()->getData();
-        for (int i=0;i<all_songs_tree.getNumNodes();i++){
-            cout<< current->getNumStreams()<<endl;
-            cout<< current->getArtistID()<<endl;
-            cout << current->getSongID() << endl;
-            cout << endl;
-            all_songs_tree.updateCurrent();
-            current = all_songs_tree.getCurrent()->getData();
-        }*/
+
         if (artistID == nullptr || songID == nullptr || rank <= 0 ){
             return INVALID_INPUT;
         }
@@ -142,9 +158,6 @@ public:
         *songID = wanted_song->getSongID();
         return SUCCESS;
     }
-
-
-
 
 };
 #endif //WET2DS_SOUNDCLOUD_H

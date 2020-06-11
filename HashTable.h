@@ -12,9 +12,15 @@ private:
     int size;
     int init_size;
     LinkedList<T>** table;
-    void resize(int updated_size){
+    bool resize(int updated_size){
         LinkedList<T>** old_table = table;
-        table = new LinkedList<T>* [updated_size];
+        try{
+            table = new LinkedList<T>* [updated_size];
+        }
+        catch(std::bad_alloc&){
+            table = old_table;
+            return false;
+        }
         for (int i=0; i<updated_size;i++){
             table[i] = nullptr;
         }
@@ -35,6 +41,7 @@ private:
             delete old_table[i];
         }
         delete []old_table;
+        return true;
     }
 
     int hashFunc(int value){
@@ -43,7 +50,7 @@ private:
 
 public:
     //ctor
-    HashTable(int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
+    explicit HashTable(int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
         table = new LinkedList<T>*[size];
         for (int i=0; i<size;i++){
             table[i] = nullptr;
@@ -59,22 +66,28 @@ public:
         delete []table;
     }
     //insert to table
-    //TODO add alloc errors
-    void insert(int key, T* data) {
+    bool insert(int key, T* data) {
         int index = hashFunc(key);
         if (table[index] == nullptr) {
-            table[index] = new LinkedList<T>;
+            try{
+                table[index] = new LinkedList<T>;
+            }
+            catch(std::bad_alloc&){
+                return false;
+            }
         }
         table[index]->InsertFirst(key,data);
         num_occupied++;
         if(num_occupied==size){
-            resize(2*size);
+            if(!resize(2*size)){
+                return false;
+            }
         }
+        return true;
     }
     //Remove from table
-    //todo add alloc errors
     //will be called only after element was found
-    void remove (int key){
+    bool remove (int key){
         int index = hashFunc(key);
         table[index]->removeNode(table[index]->FindNode(key)->getKey());
         num_occupied--;
@@ -83,8 +96,11 @@ public:
             table[index] = nullptr;
         }
         if(num_occupied == size/4 && size > 2*init_size){
-            resize(size/2);
+            if(!resize(size/2)){
+                return false;
+            }
         }
+        return true;
     }
     T* find(int key){
         int index = hashFunc(key);
