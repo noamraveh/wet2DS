@@ -15,44 +15,26 @@ class SongID{
     SongAll* all_songs_tree_ptr;
 public:
     //ctor
-    explicit SongID(int song_id,int num_streams=0):song_id(song_id),num_streams(0),song_rank_tree_ptr(nullptr),all_songs_tree_ptr(nullptr){};
+    explicit SongID(int song_id,int num_streams=0);
     //dtor
-    //operator <
-    //opertator ==
-    //get num streams
+    ~SongID()= default;
 
-    void linkMainTree(SongAll* all_songs_data){
-        all_songs_tree_ptr = all_songs_data;
-    }
+    void linkMainTree(SongAll* all_songs_data);
 
-    void linkRankTree(SongRank *new_song_rank) {
-        song_rank_tree_ptr = new_song_rank;
-    }
+    void linkRankTree(SongRank *new_song_rank);
 
-    SongRank *getRankTreePtr() {
-        return song_rank_tree_ptr;
-    }
+    SongRank *getRankTreePtr();
 
-    SongAll *getMainTreePtr() {
-        return all_songs_tree_ptr;
-    }
+    SongAll *getMainTreePtr();
 
-    int getNumStreams() {
-        return num_streams;
-    }
+    int getNumStreams();
 
     //operator <
-    bool operator<(const SongID &song){
-        return song_id < song.song_id;
-    }
+    bool operator<(const SongID &song);
 
     //operator ==
-    bool operator==(const SongID &song){
-        return song_id == song.song_id;
-    }
+    bool operator==(const SongID &song);
 
-    void updateStreams(int new_count) {
-        num_streams = new_count;
-    }
+    void updateStreams(int new_count);
 };
 #endif //WET2DS_SONGID_H

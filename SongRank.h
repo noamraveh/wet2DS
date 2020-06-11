@@ -9,26 +9,14 @@ class SongRank{
     int num_streams;
 public:
     //ctor
-    SongRank(int song_id,int num_streams=0):song_id(song_id),num_streams(num_streams){};
+    explicit SongRank(int song_id,int num_streams=0);
     //dtor
-    bool operator<(const SongRank &song){
-        if (num_streams>song.num_streams){
-            return true;
-        }
-        else if(num_streams<song.num_streams){
-            return false;
-        }
-        else{ // num streams is equal, checking according to song id
-            return song_id < song.song_id;
-        }
-    }
+    ~SongRank()= default;
+    //operator <
+    bool operator<(const SongRank &song);
     //operator ==
-    bool operator==(const SongRank& song){
-        return num_streams==song.num_streams && song_id==song.song_id;
-    }
+    bool operator==(const SongRank& song);
 
-    int getID() {
-        return song_id;
-    }
+    int getID();
 };
 #endif //WET2DS_SONGRANK_H
