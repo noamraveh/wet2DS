@@ -14,7 +14,12 @@ private:
     LinkedList<T>** table;
     void resize(int updated_size){
         LinkedList<T>** old_table = table;
-        table = new LinkedList<T>* [updated_size];
+        try{
+            table = new LinkedList<T>* [updated_size];
+        }
+        catch(std::bad_alloc&){
+            table = old_table;
+        }
         for (int i=0; i<updated_size;i++){
             table[i] = nullptr;
         }
@@ -43,7 +48,7 @@ private:
 
 public:
     //ctor
-    HashTable(int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
+    explicit HashTable(int init_size):num_occupied(0),size(init_size),init_size(init_size),table(nullptr){
         table = new LinkedList<T>*[size];
         for (int i=0; i<size;i++){
             table[i] = nullptr;
@@ -59,11 +64,15 @@ public:
         delete []table;
     }
     //insert to table
-    //TODO add alloc errors
     void insert(int key, T* data) {
         int index = hashFunc(key);
         if (table[index] == nullptr) {
-            table[index] = new LinkedList<T>;
+            try{
+                table[index] = new LinkedList<T>;
+            }
+            catch(std::bad_alloc&){
+                return;
+            }
         }
         table[index]->InsertFirst(key,data);
         num_occupied++;
@@ -72,7 +81,6 @@ public:
         }
     }
     //Remove from table
-    //todo add alloc errors
     //will be called only after element was found
     void remove (int key){
         int index = hashFunc(key);
